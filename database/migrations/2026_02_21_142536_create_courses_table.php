@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->string('name',100);
+            $table->decimal('price',12,2);
+            $table->decimal('price_sale',12,2)->default(0);
+            $table->boolean('on_sale')->default(false);
+            $table->integer('lms_course_id')->nullable();
             $table->timestamps();
         });
     }

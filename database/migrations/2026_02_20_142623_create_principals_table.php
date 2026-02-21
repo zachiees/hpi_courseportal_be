@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('principals', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
+            $table->string('name',100);
+            $table->enum('type',['local','international'])->default('local');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
