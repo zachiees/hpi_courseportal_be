@@ -26,4 +26,7 @@ class Auth extends Controller
         return [ 'user' => $current_user, 'token' => $session_token ];
 
     }
+    public function validate(){
+        return [];
+    }
 }
