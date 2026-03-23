@@ -7,5 +7,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-//AUTH
+//COMMON
 require_once "api/common/auth.php";
+require_once "api/common/users.php";
