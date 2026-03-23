@@ -19,13 +19,31 @@ class User extends Controller
         $page_size = 20;
         $page = $request->input('page',1);
         $search = $request->input('query','');
+        $sort = $request->input('sort','');
+        $role = $request->input('role','');
 
         if($search){
             $query->where('firstname','like',"%$search%")
                   ->orWhere('lastname','like',"%$search%")
                   ->orWhere('email','like',"%$search%");
         }
+        //FILTER
+        if($role){
+            $query->where('role',$role);
+        }
+        //SORT
+        match ($sort){
+            'name_asc'  => $query->orderBy('firstname','asc'),
+            'name_desc' => $query->orderBy('firstname','desc'),
+            'login_asc' => $query->orderBy('last_login','asc'),
+            'login_desc' => $query->orderBy('last_login','desc'),
+            'date_asc' => $query->orderBy('created_at','asc'),
+            'date_desc' => $query->orderBy('created_at','desc'),
+            default=> $query,
+        };
         $count = $query->count();
+        //PAGINATE
+        $query->limit($page_size)->offset(($page-1)*$page_size);
         $items = $query->get();
         return [ 'count' => $count, 'items' => $items ];
     }
