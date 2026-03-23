@@ -10,7 +10,24 @@ class User extends Controller
 {
     //
     public function index(Request $request){
+        $request->validate([
+            'page'=>'nullable|min:1',
+        ]);
 
+        $query = UserModel::query();
+
+        $page_size = 20;
+        $page = $request->input('page',1);
+        $search = $request->input('query','');
+
+        if($search){
+            $query->where('firstname','like',"%$search%")
+                  ->orWhere('lastname','like',"%$search%")
+                  ->orWhere('email','like',"%$search%");
+        }
+        $count = $query->count();
+        $items = $query->get();
+        return [ 'count' => $count, 'items' => $items ];
     }
     public function find(Request $request){
 
