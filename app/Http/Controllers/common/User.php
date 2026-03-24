@@ -61,7 +61,11 @@ class User extends Controller
     public function update(Request $request){
 
     }
-    public function destroy(Request $request){
-
+    public function destroy(Request $request,$uuid){
+        $record = UserModel::where('uuid',$uuid)->firstOrFail();;
+        $time = time();
+        //update unique fields before soft delete
+        $record->update(['email'=>"$time.$record->email"]);
+        $record->delete();
     }
 }
