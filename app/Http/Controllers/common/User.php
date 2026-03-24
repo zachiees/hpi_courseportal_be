@@ -47,8 +47,8 @@ class User extends Controller
         $items = $query->get();
         return [ 'count' => $count, 'items' => $items ];
     }
-    public function find(Request $request){
-
+    public function find(Request $request,$uuid){
+        return UserModel::where('uuid',$uuid)->firstOrFail();
     }
     public function store(Request $request){
         $request->validate([ 'firstname'=>'required|max:50',
