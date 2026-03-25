@@ -5,6 +5,7 @@ namespace App\Http\Controllers\common;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User as UserModel;
+use Illuminate\Validation\Rule;
 
 class User extends Controller
 {
@@ -58,7 +59,17 @@ class User extends Controller
                              'password'=>'required|min:8|max:20']);
         return UserModel::create($request->all());
     }
-    public function update(Request $request){
+    public function update(Request $request,$uuid){
+        $record = UserModel::where('uuid',$uuid)->firstOrFail();
+
+        $request->validate(['firstname'=>'required|max:50',
+                            'lastname'=>'required|max:50',
+                            'email'=>['required','max:100',Rule::unique('users','email')->ignore($record)],
+                            'role'=>'required|in:admin,principal,client',
+                            'password'=>'nullable|min:8|max:20']);
+
+        $request->filled('password') && $record->update($request->input('password'));
+        return $record->update($request->except('password'));
 
     }
     public function destroy(Request $request,$uuid){
