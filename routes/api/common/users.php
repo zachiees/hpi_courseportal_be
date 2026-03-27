@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\common\User;
+use App\Http\Controllers\Common\User;
 
 Route::prefix('users')->middleware(['auth:sanctum'])->group(function () {
     Route::get('',      [User::class,'index']);

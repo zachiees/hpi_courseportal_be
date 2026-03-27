@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\common\Programs;
+use App\Http\Controllers\Common\Programs;
 
 Route::prefix('programs')
         ->middleware('auth:sanctum')

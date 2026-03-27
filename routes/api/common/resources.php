@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\common\Resources;
+use App\Http\Controllers\Common\Resources;
 
 Route::middleware(['auth:sanctum'])
         ->prefix('resources')
