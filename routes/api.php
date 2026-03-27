@@ -12,3 +12,4 @@ require_once "api/common/auth.php";
 require_once "api/common/users.php";
 require_once "api/common/programs.php";
 require_once "api/common/program_categories.php";
+require_once "api/common/resources.php";
