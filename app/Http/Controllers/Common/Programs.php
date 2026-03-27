@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Common;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Program as ProgramModel;
+use App\Models\ProgramCategory;
+use App\Models\ProgramCategoryPivot;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Programs extends Controller
 {
@@ -42,8 +46,20 @@ class Programs extends Controller
                             'on_sale'    =>'required|boolean',
                             'price'      =>'required|numeric|min:0',
                             'price_sale' =>'required|numeric|min:0',
+
                             'pricing_type' =>'required|in:total,custom']);
-        return ProgramModel::create($request->all());
+        //
+        $categories =  $request->input('category',[]);
+        DB::beginTransaction();
+        $res = ProgramModel::create($request->all());
+        foreach($categories as $uuid){
+            $cat = ProgramCategory::where('uuid',$uuid)->first();
+            if(!$cat){continue;}
+            ProgramCategoryPivot::create(['category_id'=> $cat->id,
+                                          'program_id'=> $res->id]);
+        }
+        DB::commit();
+        return $res;
     }
 
 }
