@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('programs_categories_pivot', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')
-                  ->constrained()
+                  ->constrained('program_categories')
                   ->cascadeOnUpdate()
                   ->cascadeOnDelete();
             $table->foreignId('program_id')
-                  ->constrained()
+                  ->constrained('programs')
                   ->cascadeOnUpdate()
                   ->cascadeOnDelete();
         });
