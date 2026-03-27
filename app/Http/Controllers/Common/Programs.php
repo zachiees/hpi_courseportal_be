@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Program as ProgramModel;
 
 class Programs extends Controller
 {
@@ -19,8 +20,7 @@ class Programs extends Controller
                             'price'      =>'required|numeric|min:0',
                             'price_sale' =>'required|numeric|min:0',
                             'pricing_type' =>'required|in:total,custom']);
-
-
-
+        return ProgramModel::create($request->all());
     }
+
 }
