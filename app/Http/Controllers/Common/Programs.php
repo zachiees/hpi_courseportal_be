@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Log;
 class Programs extends Controller
 {
     //
+    public function find(Request $request,$uuid){
+        return ProgramModel::where('uuid',$uuid)->firstOrFail();
+    }
     public function index(Request $request){
         $page = $request->input('page', 1);
         $page_size = 20;
