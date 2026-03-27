@@ -13,11 +13,21 @@ class Programs extends Controller
         $page = $request->input('page', 1);
         $page_size = 20;
         $search = $request->input('query','');
+        $sort = $request->input('sort','date_desc');
 
         $query= ProgramModel::query();
         if($search){
             $query->where('name','like','%'.$search.'%');
         }
+
+        //SORT
+        match ($sort) {
+            'name_asc'  => $query->orderBy('name','asc'),
+            'name_desc' => $query->orderBy('name','desc'),
+            'date_asc'  => $query->orderBy('created_at','asc'),
+            'date_desc' => $query->orderBy('created_at','desc'),
+            default => $query,
+        };
         $count = $query->count();
         //PAGINATE
         $items = $query->take($page_size)
