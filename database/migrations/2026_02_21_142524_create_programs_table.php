@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->index();
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('pricing_type',['total','custom'])->default('custom');
