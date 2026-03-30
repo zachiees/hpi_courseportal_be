@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Controller;
-use App\Models\ProgramCategory as ProgramCategoryModel;
+use App\Http\Controllers\Controller;;
 use Illuminate\Http\Request;
 use App\Models\Program as ProgramModel;
 use App\Models\ProgramCategory;
 use App\Models\ProgramCategoryPivot;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class Programs extends Controller
 {
@@ -83,7 +83,15 @@ class Programs extends Controller
     }
     public function store_categories(Request $request){
         $request->validate(['name'=>'required|string|max:100|unique:program_categories,name']);
-        return ProgramCategoryModel::create($request->all());
+        return ProgramCategory::create($request->all());
+    }
+    public function update_categories(Request $request,$uuid){
+        $record = ProgramCategory::where('uuid',$uuid)->firstOrFail();
+        $request->validate(['name'=> ['required','string','max:100',Rule::unique('program_categories','name')->ignore($record)]]);
+        return $record->update($request->all());
+    }
+    public function destroy_categories(Request $request,$uuid){
+        return ProgramCategory::where('uuid',$uuid)->firstOrFail()->delete();
     }
 
 }

@@ -7,7 +7,9 @@ Route::prefix('programs')
         ->group(function () {
             Route::get('',        [Programs::class, 'index']);
             Route::post('',       [Programs::class, 'store']);
-            Route::get('categories', [Programs::class, 'index_categories']);
-            Route::post('categories', [Programs::class, 'store_categories']);
+            Route::get('categories',          [Programs::class, 'index_categories']);
+            Route::post('categories',         [Programs::class, 'store_categories']);
+            Route::patch('categories/{uuid}', [Programs::class, 'update_categories']);
+            Route::delete('categories/{uuid}', [Programs::class, 'destroy_categories']);
             Route::get('{uuid}', [Programs::class, 'find']);
         });
