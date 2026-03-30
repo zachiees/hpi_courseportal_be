@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProgramCategory as ProgramCategoryModel;
 use Illuminate\Http\Request;
 use App\Models\Program as ProgramModel;
 use App\Models\ProgramCategory;
@@ -64,7 +65,7 @@ class Programs extends Controller
         DB::commit();
         return $res;
     }
-    public function index_categories(Request $request,$uuid){
+    public function index_categories(Request $request){
         $page = $request->input('page', 1);
         $page_size = 20;
         $search = $request->input('query','');
@@ -79,6 +80,10 @@ class Programs extends Controller
             ->skip(($page-1)*$page_size)
             ->get();
         return ['count'=>$count,'items'=>$items];
+    }
+    public function store_categories(Request $request){
+        $request->validate(['name'=>'required|string|max:100|unique:program_categories,name']);
+        return ProgramCategoryModel::create($request->all());
     }
 
 }
