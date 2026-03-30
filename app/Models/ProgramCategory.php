@@ -17,4 +17,8 @@ class ProgramCategory extends Model
         return ['uuid'];
     }
 
+    public function programs(){
+        return $this->hasManyThrough(Program::class, ProgramCategoryPivot::class,'category_id','id');
+    }
+
 }

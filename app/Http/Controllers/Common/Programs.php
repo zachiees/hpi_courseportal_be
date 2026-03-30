@@ -70,7 +70,7 @@ class Programs extends Controller
         $page_size = 20;
         $search = $request->input('query','');
 
-        $query=ProgramCategory::query();
+        $query=ProgramCategory::query()->withCount('programs');
         if($search){
             $query->where('name','like','%'.$search.'%');
         }
