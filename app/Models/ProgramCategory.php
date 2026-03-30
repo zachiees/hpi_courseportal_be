@@ -18,7 +18,7 @@ class ProgramCategory extends Model
     }
 
     public function programs(){
-        return $this->hasManyThrough(Program::class, ProgramCategoryPivot::class,'category_id','id');
+        return $this->belongsToMany(Program::class, ProgramCategoryPivot::class,'category_id','program_id');
     }
 
 }
