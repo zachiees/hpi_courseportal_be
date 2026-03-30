@@ -7,5 +7,6 @@ Route::prefix('programs')
         ->group(function () {
             Route::get('',        [Programs::class, 'index']);
             Route::post('',       [Programs::class, 'store']);
+            Route::get('categories', [Programs::class, 'index_categories']);
             Route::get('{uuid}', [Programs::class, 'find']);
         });

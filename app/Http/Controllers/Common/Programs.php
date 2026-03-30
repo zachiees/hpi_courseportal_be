@@ -64,5 +64,21 @@ class Programs extends Controller
         DB::commit();
         return $res;
     }
+    public function index_categories(Request $request,$uuid){
+        $page = $request->input('page', 1);
+        $page_size = 20;
+        $search = $request->input('query','');
+
+        $query=ProgramCategory::query();
+        if($search){
+            $query->where('name','like','%'.$search.'%');
+        }
+        $count = $query->count();
+        //PAGINATE
+        $items = $query->take($page_size)
+            ->skip(($page-1)*$page_size)
+            ->get();
+        return ['count'=>$count,'items'=>$items];
+    }
 
 }
