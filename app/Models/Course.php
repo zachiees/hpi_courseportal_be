@@ -9,6 +9,19 @@ class Course extends Model
 {   use HasUuids;
     //
 
+    protected $hidden = ['id'];
+    protected $fillable = [ 'name',
+                            'description',
+                            'price',
+                            'price_sale',
+                            'on_sale',
+                            'lms_course_id',
+                            'tags'];
+
+    protected $casts = [
+        'tags'=>'array',
+    ];
+
     public function uniqueIds(){
         return ['uuid'];
     }
