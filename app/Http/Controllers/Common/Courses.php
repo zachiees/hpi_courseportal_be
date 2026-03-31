@@ -21,4 +21,10 @@ class Courses extends Controller
         CourseModel::create($request->all());
 
     }
+    public function index(Request $request){
+        $query = CourseModel::query();
+        $count = $query->count();
+        $items = $query->get();
+        return [ 'count' => $count, 'items' => $items ];
+    }
 }

@@ -7,6 +7,7 @@ Route::prefix('courses')
     ->middleware('auth:sanctum')
     ->group(function(){
         Route::post("", [Courses::class, 'store']);
+        Route::get("", [Courses::class, 'index']);
 
 
     });
