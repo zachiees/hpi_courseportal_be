@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->string('name',100);
             $table->string('description',1024)->nullable();
             $table->decimal('price',12,2)->default(0);
