@@ -12,4 +12,5 @@ Route::prefix('programs')
             Route::patch('categories/{uuid}', [Programs::class, 'update_categories']);
             Route::delete('categories/{uuid}', [Programs::class, 'destroy_categories']);
             Route::get('{uuid}', [Programs::class, 'find']);
+            Route::patch('{uuid}',       [Programs::class, 'update']);
         });

@@ -65,6 +65,30 @@ class Programs extends Controller
         DB::commit();
         return $res;
     }
+    public function update(Request $request,$uuid){
+        $record = ProgramModel::where('uuid',$uuid)->firstOrFail();
+
+        $request->validate(['name'       =>'required',
+                            'description'=>'nullable',
+                            'on_sale'    =>'required|boolean',
+                            'price'      =>'required|numeric|min:0',
+                            'price_sale' =>'required|numeric|min:0',
+                            'pricing_type' =>'required|in:total,custom']);
+        $categories =  $request->input('category',[]);
+
+        DB::beginTransaction();
+        $res = $record->update($request->all());
+        ProgramCategoryPivot::where('program_id',$record->id)->delete();
+        foreach($categories as $uuid){
+            $cat = ProgramCategory::where('uuid',$uuid)->first();
+            if(!$cat){continue;}
+            ProgramCategoryPivot::create(['category_id'=> $cat->id,
+                                          'program_id' => $record->id]);
+        }
+        DB::commit();
+        return $res;
+
+    }
     public function index_categories(Request $request){
         $page = $request->input('page', 1);
         $page_size = 20;
