@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;;
+
+use App\Models\ProgramCourse;
 use Illuminate\Http\Request;
 use App\Models\Program as ProgramModel;
 use App\Models\ProgramCategory;
@@ -10,6 +12,8 @@ use App\Models\ProgramCategoryPivot;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use App\Models\Course;
+use Symfony\Component\HttpFoundation\Response;
 
 class Programs extends Controller
 {
@@ -117,5 +121,19 @@ class Programs extends Controller
     public function destroy_categories(Request $request,$uuid){
         return ProgramCategory::where('uuid',$uuid)->firstOrFail()->delete();
     }
+    public function add_course(Request $request,$uuid){
+        $request->validate([ 'uuid'=>'required']);
+        $record = ProgramModel::where('uuid',$uuid)->firstOrFail();
+        $course = Course::where('uuid',$request->input('uuid'))->firstOrFail();
 
+        //CHECK IF EXISTS
+        $exists = ProgramCourse::where('program_id',$record->id)
+                                ->where('course_id',$course->id)
+                                ->exists();
+        if($exists){
+            return response([],Response::HTTP_OK);
+        }
+        return ProgramCourse::create(['program_id'=>$record->id,
+                                      'course_id'=>$course->id]);
+    }
 }

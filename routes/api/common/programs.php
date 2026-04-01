@@ -11,6 +11,7 @@ Route::prefix('programs')
             Route::post('categories',         [Programs::class, 'store_categories']);
             Route::patch('categories/{uuid}', [Programs::class, 'update_categories']);
             Route::delete('categories/{uuid}', [Programs::class, 'destroy_categories']);
-            Route::get('{uuid}', [Programs::class, 'find']);
+            Route::get('{uuid}',         [Programs::class, 'find']);
             Route::patch('{uuid}',       [Programs::class, 'update']);
+            Route::post('{uuid}/courses',[Programs::class, 'add_course']);
         });
