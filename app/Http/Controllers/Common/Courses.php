@@ -51,6 +51,6 @@ class Courses extends Controller
         return [ 'count' => $count, 'items' => $items ];
     }
     public function list(Request $request){
-        return CourseModel::select(['uuid','name'])->orderBy('name','asc')->get();
+        return CourseModel::orderBy('name','asc')->get();
     }
 }
