@@ -50,4 +50,7 @@ class Courses extends Controller
         $items = $query->get();
         return [ 'count' => $count, 'items' => $items ];
     }
+    public function list(Request $request){
+        return CourseModel::select(['uuid','name'])->orderBy('name','asc')->get();
+    }
 }
