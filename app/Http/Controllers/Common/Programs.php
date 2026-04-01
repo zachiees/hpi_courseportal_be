@@ -19,7 +19,7 @@ class Programs extends Controller
 {
     //
     public function find(Request $request,$uuid){
-        return ProgramModel::where('uuid',$uuid)->with(['categories'])->firstOrFail();
+        return ProgramModel::where('uuid',$uuid)->with(['categories','courses'])->firstOrFail();
     }
     public function index(Request $request){
         $page = $request->input('page', 1);
