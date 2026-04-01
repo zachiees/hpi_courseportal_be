@@ -15,7 +15,7 @@ class Programs extends Controller
 {
     //
     public function find(Request $request,$uuid){
-        return ProgramModel::where('uuid',$uuid)->firstOrFail();
+        return ProgramModel::where('uuid',$uuid)->with(['categories'])->firstOrFail();
     }
     public function index(Request $request){
         $page = $request->input('page', 1);

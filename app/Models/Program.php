@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ProgramCategoryPivot;
 
 class Program extends Model
 {   use HasUuids;
@@ -18,6 +19,10 @@ class Program extends Model
 
     public function uniqueIds(){
         return ['uuid'];
+    }
+    //RELATIONS
+    public function categories(){
+        return $this->belongsToMany(ProgramCategory::class,ProgramCategoryPivot::class, 'program_id', 'category_id');
     }
 
 }
