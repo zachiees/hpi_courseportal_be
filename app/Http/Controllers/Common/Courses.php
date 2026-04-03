@@ -60,19 +60,16 @@ class Courses extends Controller
         return CourseModel::orderBy('name','asc')->get();
     }
     public function update(Request $request,$uuid){
-
         $request->validate(['name'       =>'required|max:100',
                             'description'=>'max:1024',
                             'price'      =>'required|numeric',
                             'price_sale' =>'required|numeric',
                             'on_sale'    =>'required|boolean']);
-
         $record = CourseModel::where('uuid',$uuid)->firstOrFail();
         $price_computed = $request->input('on_sale') ? $request->input('price_sale') : $request->input('price');
         DB::beginTransaction();
         $res = $record->update([...$request->all(),
                                 'price_computed' => $price_computed]);
-
         CourseUpdated::dispatch($record);
         DB::commit();
         return $res;

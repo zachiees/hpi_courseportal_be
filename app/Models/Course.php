@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ProgramCourse;
 
 class Course extends Model
 {   use HasUuids;
@@ -26,6 +27,8 @@ class Course extends Model
     public function uniqueIds(){
         return ['uuid'];
     }
-    //
-
+    //RELATIONS
+    public function programs(){
+        return $this->belongsToMany(Program::class,ProgramCourse::class,'course_id','program_id');
+    }
 }

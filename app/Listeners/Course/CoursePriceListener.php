@@ -3,6 +3,7 @@
 namespace App\Listeners\Course;
 
 use App\Events\Course\CourseUpdated;
+use App\Events\Program\ProgramUpdated;
 use Illuminate\Support\Facades\Log;
 
 class CoursePriceListener
@@ -18,10 +19,11 @@ class CoursePriceListener
     /**
      * Handle the event.
      */
-    public function handle(CourseUpdated $event): void
-    {
+    public function handle(CourseUpdated $event): void{
         //
         $course = $event->course;
-        Log::info($course);
+        foreach ($course->programs as $p){
+            ProgramUpdated::dispatch($p);
+        }
     }
 }
