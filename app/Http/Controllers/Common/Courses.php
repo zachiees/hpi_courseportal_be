@@ -11,15 +11,16 @@ class Courses extends Controller
 {
     //
     public function store(Request $request){
-        $request->validate([
-            'name'       =>'required|max:100',
-            'description'=>'max:1024',
-            'price'      =>'required|numeric',
-            'price_sale' =>'required|numeric',
-            'on_sale'    =>'required|boolean',
-        ]);
-
-        CourseModel::create($request->all());
+        $request->validate(['name'       =>'required|max:100',
+                            'description'=>'max:1024',
+                            'price'      =>'required|numeric',
+                            'price_sale' =>'required|numeric',
+                            'on_sale'    =>'required|boolean']);
+        $price_computed = $request->input('on_sale') ? $request->input('price_sale') : $request->input('price');
+        $res = CourseModel::create([...$request->all(),
+                                    'computed_price' => $price_computed]);
+        $this->updatePrice($res);
+        return $res;
 
     }
     public function index(Request $request){
@@ -53,4 +54,10 @@ class Courses extends Controller
     public function list(Request $request){
         return CourseModel::orderBy('name','asc')->get();
     }
+    //
+    private function updatePrice(CourseModel $course){
+        $price = $course->on_sale ? $course->price_sale : $course->price ;
+        $course->update(['price_computed' => $price]);
+    }
+
 }

@@ -14,6 +14,7 @@ class Course extends Model
                             'description',
                             'price',
                             'price_sale',
+                            'price_computed',
                             'on_sale',
                             'lms_course_id',
                             'tags'];
@@ -25,5 +26,6 @@ class Course extends Model
     public function uniqueIds(){
         return ['uuid'];
     }
+    //
 
 }
