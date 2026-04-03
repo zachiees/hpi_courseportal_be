@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Program;
 
-use App\Events\ProgramUpdated;
+use App\Events\Program\ProgramUpdated;
 use Illuminate\Support\Facades\Log;
 
 class ProgramPriceListener

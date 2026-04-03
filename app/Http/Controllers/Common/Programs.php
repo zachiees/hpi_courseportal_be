@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Events\ProgramUpdated;
-use App\Http\Controllers\Controller;;
-
-use App\Models\ProgramCourse;
-use Illuminate\Http\Request;
+use App\Events\Program\ProgramUpdated;
+use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Program as ProgramModel;
 use App\Models\ProgramCategory;
 use App\Models\ProgramCategoryPivot;
+use App\Models\ProgramCourse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
-use App\Models\Course;
 use Symfony\Component\HttpFoundation\Response;
+
+;
 
 class Programs extends Controller
 {
@@ -49,13 +49,11 @@ class Programs extends Controller
         return ['count'=>$count,'items'=>$items];
     }
     public function store(Request $request){
-
         $request->validate(['name'       =>'required',
                             'description'=>'nullable',
                             'on_sale'    =>'required|boolean',
                             'price'      =>'required|numeric|min:0',
                             'price_sale' =>'required|numeric|min:0',
-
                             'pricing_type' =>'required|in:total,custom']);
         //
         $categories =  $request->input('category',[]);
