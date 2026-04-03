@@ -71,7 +71,8 @@ class Courses extends Controller
         $price_computed = $request->input('on_sale') ? $request->input('price_sale') : $request->input('price');
         DB::beginTransaction();
         $res = $record->update([...$request->all(),
-                                'computed_price' => $price_computed]);
+                                'price_computed' => $price_computed]);
+
         CourseUpdated::dispatch($record);
         DB::commit();
         return $res;
