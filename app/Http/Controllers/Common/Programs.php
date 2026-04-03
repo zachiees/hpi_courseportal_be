@@ -121,6 +121,9 @@ class Programs extends Controller
     public function destroy_categories(Request $request,$uuid){
         return ProgramCategory::where('uuid',$uuid)->firstOrFail()->delete();
     }
+    public function courses(Request $request,$uuid){
+        return ProgramModel::where('uuid',$uuid)->firstOrFail()->courses;
+    }
     public function add_course(Request $request,$uuid){
         $request->validate([ 'uuid'=>'required']);
         $record = ProgramModel::where('uuid',$uuid)->firstOrFail();

@@ -13,5 +13,6 @@ Route::prefix('programs')
             Route::delete('categories/{uuid}', [Programs::class, 'destroy_categories']);
             Route::get('{uuid}',         [Programs::class, 'find']);
             Route::patch('{uuid}',       [Programs::class, 'update']);
+            Route::get('{uuid}/courses',[Programs::class, 'courses']);
             Route::post('{uuid}/courses',[Programs::class, 'add_course']);
         });
