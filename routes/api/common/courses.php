@@ -8,8 +8,9 @@ Route::prefix('courses')
     ->group(function(){
         Route::post("", [Courses::class, 'store']);
         Route::get("", [Courses::class, 'index']);
+        Route::get("list", [Courses::class, 'list']);
         Route::get("{uuid}", [Courses::class, 'find']);
         Route::patch("{uuid}", [Courses::class, 'update']);
-        Route::get("list", [Courses::class, 'list']);
+
 
     });
