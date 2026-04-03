@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Log;
 class Courses extends Controller
 {
     //
+    public function find(Request $request, $uuid){
+        return CourseModel::where('uuid',$uuid)->firstOrFail();
+    }
     public function store(Request $request){
         $request->validate(['name'       =>'required|max:100',
                             'description'=>'max:1024',
