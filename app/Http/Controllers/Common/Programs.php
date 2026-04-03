@@ -139,4 +139,12 @@ class Programs extends Controller
         return ProgramCourse::create(['program_id'=>$record->id,
                                       'course_id'=>$course->id]);
     }
+    public function remove_course(Request $request,$uuid,$course_uuid){
+        $record = ProgramModel::where('uuid',$uuid)->firstOrFail();
+        $course = Course::where('uuid',$course_uuid)->firstOrFail();
+        return  ProgramCourse::where('program_id',$record->id)
+                              ->where('course_id',$course->id)
+                              ->firstOrFail()
+                              ->delete();
+    }
 }
