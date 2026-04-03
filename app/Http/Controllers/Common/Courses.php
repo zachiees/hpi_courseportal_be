@@ -70,8 +70,8 @@ class Courses extends Controller
         $record = CourseModel::where('uuid',$uuid)->firstOrFail();
         $price_computed = $request->input('on_sale') ? $request->input('price_sale') : $request->input('price');
         DB::beginTransaction();
-        $res = CourseModel::update([...$request->all(),
-                                    'computed_price' => $price_computed]);
+        $res = $record->update([...$request->all(),
+                                'computed_price' => $price_computed]);
         CourseUpdated::dispatch($record);
         DB::commit();
         return $res;
