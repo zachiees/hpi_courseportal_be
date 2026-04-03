@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Events\ProgramUpdated;
 use App\Http\Controllers\Controller;;
 
 use App\Models\ProgramCourse;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use App\Models\Course;
 use Symfony\Component\HttpFoundation\Response;
-use App\Helpers\ProgramHelper;
 
 class Programs extends Controller
 {
@@ -67,6 +67,7 @@ class Programs extends Controller
             ProgramCategoryPivot::create(['category_id'=> $cat->id,
                                           'program_id'=> $res->id]);
         }
+        ProgramUpdated::dispatch($res);
         DB::commit();
         return $res;
     }
@@ -90,7 +91,7 @@ class Programs extends Controller
             ProgramCategoryPivot::create(['category_id'=> $cat->id,
                                           'program_id' => $record->id]);
         }
-        ProgramHelper::updatePrice($record);
+        ProgramUpdated::dispatch($record);
         DB::commit();
         return $res;
 
@@ -141,7 +142,7 @@ class Programs extends Controller
         DB::beginTransaction();
         $res = ProgramCourse::create(['program_id'=>$program->id,
                                       'course_id'=>$course->id]);
-        ProgramHelper::updatePrice($program);
+        ProgramUpdated::dispatch($program);
         DB::commit();
     }
     public function remove_course(Request $request,$uuid,$course_uuid){
@@ -152,7 +153,7 @@ class Programs extends Controller
                                 ->where('course_id',$course->id)
                                 ->firstOrFail()
                                 ->delete();
-        ProgramHelper::updatePrice($program);
+        ProgramUpdated::dispatch($program);
         DB::commit();
         return $res;
     }

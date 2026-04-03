@@ -1,12 +1,26 @@
 <?php
 
-namespace App\Helpers;
-use App\Models\Program;
+namespace App\Listeners\Program;
+
+use App\Events\ProgramUpdated;
 use Illuminate\Support\Facades\Log;
 
-class ProgramHelper{
+class ProgramPriceListener
+{
+    /**
+     * Create the event listener.
+     */
+    public function __construct()
+    {
+        //
+    }
 
-    public static function updatePrice(Program $program){
+    /**
+     * Handle the event.
+     */
+    public function handle(ProgramUpdated $event): void{
+        //
+        $program = $event->program;
         //USE CUSTOM PRICE
         if($program->pricing_type == 'custom'){
             $price = $program->on_sale ? $program->price_sale : $program->price;
@@ -18,5 +32,4 @@ class ProgramHelper{
         $total = array_reduce($courses,fn($total,$c) => $total+$c['price_computed'] ,0);
         $program->update(['price_computed'=>$total]);
     }
-
 }
