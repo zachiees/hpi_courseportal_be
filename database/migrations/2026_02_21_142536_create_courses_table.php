@@ -16,11 +16,12 @@ return new class extends Migration
             $table->uuid();
             $table->string('name',100);
             $table->string('description',1024)->nullable();
-            $table->decimal('price',12,2)->default(0);
-            $table->decimal('price_sale',12,2)->default(0);
             $table->boolean('on_sale')->default(false);
             $table->integer('lms_course_id')->nullable();
             $table->json('tags')->nullable();
+            $table->decimal('price',12,2)->default(0);
+            $table->decimal('price_sale',12,2)->default(0);
+            $table->decimal('price_computed',12,2)->default(0);
             $table->timestamps();
         });
     }
