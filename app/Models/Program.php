@@ -17,6 +17,7 @@ class Program extends Model
                            'pricing_type',
                            'price',
                            'price_sale',
+                           'price_computed',
                            'on_sale'];
 
     public function uniqueIds(){

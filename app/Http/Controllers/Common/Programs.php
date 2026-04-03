@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use App\Models\Course;
 use Symfony\Component\HttpFoundation\Response;
+use App\Helpers\ProgramHelper;
 
 class Programs extends Controller
 {
@@ -89,6 +90,7 @@ class Programs extends Controller
             ProgramCategoryPivot::create(['category_id'=> $cat->id,
                                           'program_id' => $record->id]);
         }
+        ProgramHelper::updatePrice($record);
         DB::commit();
         return $res;
 
@@ -126,25 +128,32 @@ class Programs extends Controller
     }
     public function add_course(Request $request,$uuid){
         $request->validate([ 'uuid'=>'required']);
-        $record = ProgramModel::where('uuid',$uuid)->firstOrFail();
+        $program = ProgramModel::where('uuid',$uuid)->firstOrFail();
         $course = Course::where('uuid',$request->input('uuid'))->firstOrFail();
 
         //CHECK IF EXISTS
-        $exists = ProgramCourse::where('program_id',$record->id)
+        $exists = ProgramCourse::where('program_id',$program->id)
                                 ->where('course_id',$course->id)
                                 ->exists();
         if($exists){
             return response([],Response::HTTP_OK);
         }
-        return ProgramCourse::create(['program_id'=>$record->id,
+        DB::beginTransaction();
+        $res = ProgramCourse::create(['program_id'=>$program->id,
                                       'course_id'=>$course->id]);
+        ProgramHelper::updatePrice($program);
+        DB::commit();
     }
     public function remove_course(Request $request,$uuid,$course_uuid){
-        $record = ProgramModel::where('uuid',$uuid)->firstOrFail();
+        $program = ProgramModel::where('uuid',$uuid)->firstOrFail();
         $course = Course::where('uuid',$course_uuid)->firstOrFail();
-        return  ProgramCourse::where('program_id',$record->id)
-                              ->where('course_id',$course->id)
-                              ->firstOrFail()
-                              ->delete();
+        DB::beginTransaction();
+        $res =  ProgramCourse::where('program_id',$program->id)
+                                ->where('course_id',$course->id)
+                                ->firstOrFail()
+                                ->delete();
+        ProgramHelper::updatePrice($program);
+        DB::commit();
+        return $res;
     }
 }
