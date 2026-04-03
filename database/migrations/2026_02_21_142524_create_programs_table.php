@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('pricing_type',['total','custom'])->default('custom');
             $table->decimal('price',12,2);
             $table->decimal('price_sale',12,2)->default(0);
+            $table->decimal('price_computed',12,2)->default(0);
             $table->boolean('on_sale')->default(false);
             $table->timestamps();
         });
