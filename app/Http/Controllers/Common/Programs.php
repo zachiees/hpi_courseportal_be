@@ -28,7 +28,7 @@ class Programs extends Controller
         $search = $request->input('query','');
         $sort = $request->input('sort','date_desc');
 
-        $query= ProgramModel::query();
+        $query= ProgramModel::withCount(['courses']);
         if($search){
             $query->where('name','like','%'.$search.'%');
         }
