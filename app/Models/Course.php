@@ -26,7 +26,7 @@ class Course extends Model
     ];
 
     protected $dispatchesEvents = [
-        'deleted' => CourseDestroyed::class
+        'deleting' => CourseDestroyed::class
     ];
 
     public function uniqueIds(){

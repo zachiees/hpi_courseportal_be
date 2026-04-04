@@ -20,9 +20,10 @@ class CoursePriceListener
     /**
      * Handle the event.
      */
-    public function handle(CourseUpdated | CourseDestroyed $event): void{
+    public function handle(CourseUpdated $event): void{
         //
         $course = $event->course;
+
         foreach ($course->programs as $p){
             ProgramUpdated::dispatch($p);
         }
