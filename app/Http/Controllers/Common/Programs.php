@@ -94,6 +94,9 @@ class Programs extends Controller
         return $res;
 
     }
+    public function destroy(Request $request,$uuid){
+        return ProgramModel::where('uuid',$uuid)->firstOrFail()->delete();
+    }
     public function index_categories(Request $request){
         $page = $request->input('page', 1);
         $page_size = 20;
