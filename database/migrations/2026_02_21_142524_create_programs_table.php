@@ -21,6 +21,8 @@ return new class extends Migration
             $table->decimal('price',12,2)->default(0);
             $table->decimal('price_sale',12,2)->default(0);
             $table->decimal('price_computed',12,2)->default(0);
+            $table->text('img_cover')->nullable();
+            $table->text('img_thumbnail')->nullable();
             $table->timestamps();
         });
     }
