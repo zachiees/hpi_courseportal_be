@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProgramCourse;
+use App\Events\Course\CourseDestroyed;
 
 class Course extends Model
 {   use HasUuids;
@@ -22,6 +23,10 @@ class Course extends Model
 
     protected $casts = [
         'tags'=>'array',
+    ];
+
+    protected $dispatchesEvents = [
+        'deleted' => CourseDestroyed::class
     ];
 
     public function uniqueIds(){

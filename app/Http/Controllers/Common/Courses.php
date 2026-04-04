@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Events\Course\CourseDestroyed;
 use App\Events\Course\CourseUpdated;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -73,6 +74,9 @@ class Courses extends Controller
         CourseUpdated::dispatch($record);
         DB::commit();
         return $res;
+    }
+    public function destroy(Request $request,$uuid){
+        return CourseModel::where('uuid',$uuid)->firstOrFail()->delete();
     }
     //
     private function updatePrice(CourseModel $course){

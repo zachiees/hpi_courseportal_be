@@ -11,6 +11,7 @@ Route::prefix('courses')
         Route::get("list", [Courses::class, 'list']);
         Route::get("{uuid}", [Courses::class, 'find']);
         Route::patch("{uuid}", [Courses::class, 'update']);
+        Route::delete("{uuid}", [Courses::class, 'destroy']);
 
 
     });
