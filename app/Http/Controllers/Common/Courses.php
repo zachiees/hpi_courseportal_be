@@ -89,6 +89,16 @@ class Courses extends Controller
         $path = $request->file('file')->store("courses/$uuid");
         return $course->update(['img_cover' => $path]);
     }
+    public function upload_thumbnail(Request $request,$uuid){
+        $course = CourseModel::where('uuid',$uuid)->firstOrFail();
+        $request->validate(['file'=>'required|file|max:20480']);
+        //DELETE OLD FILE
+        if($course->img_thumbnail){
+            Storage::delete($course->getRawOriginal('img_thumbnail'));
+        }
+        $path = $request->file('file')->store("courses/$uuid");
+        return $course->update(['img_thumbnail' => $path]);
+    }
     //
     private function updatePrice(CourseModel $course){
         $price = $course->on_sale ? $course->price_sale : $course->price ;

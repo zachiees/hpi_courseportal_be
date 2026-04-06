@@ -44,7 +44,12 @@ class Course extends Model
             set: fn ($value) => $value,
         );
     }
-
+    public function imgThumbnail(): Attribute{
+        return Attribute::make(
+            get: fn ($url) => $url? Storage::url($url):null,
+            set: fn ($value) => $value,
+        );
+    }
     //RELATIONS
     public function programs(){
         return $this->belongsToMany(Program::class,ProgramCourse::class,'course_id','program_id');
