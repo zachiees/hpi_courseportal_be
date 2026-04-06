@@ -84,7 +84,7 @@ class Courses extends Controller
         $request->validate(['file'=>'required|file|max:20480']);
         //DELETE OLD FILE
         if($course->img_cover){
-            Storage::delete($course->img_cover);
+            Storage::delete($course->getRawOriginal('img_cover'));
         }
         $path = $request->file('file')->store("courses/$uuid");
         return $course->update(['img_cover' => $path]);

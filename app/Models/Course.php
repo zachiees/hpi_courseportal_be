@@ -40,7 +40,7 @@ class Course extends Model
     //ATTRIBUTES
     public function imgCover(): Attribute{
         return Attribute::make(
-            get: fn ($url) => Storage::url($url),
+            get: fn ($url) => $url? Storage::url($url):null,
             set: fn ($value) => $value,
         );
     }
