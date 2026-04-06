@@ -11,6 +11,7 @@ use App\Models\ProgramCategoryPivot;
 use App\Models\ProgramCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -97,6 +98,29 @@ class Programs extends Controller
     public function destroy(Request $request,$uuid){
         return ProgramModel::where('uuid',$uuid)->firstOrFail()->delete();
     }
+    public function upload_cover(Request $request,$uuid){
+        $program = ProgramModel::where('uuid',$uuid)->firstOrFail();
+        $request->validate(['file'=>'required|file|max:20480']);
+        //DELETE OLD FILE
+        if($program->img_cover){
+            Storage::delete($program->getRawOriginal('img_cover'));
+        }
+        $path = $request->file('file')->store("programs/$uuid");
+        return $program->update(['img_cover' => $path]);
+
+    }
+    public function upload_thumbnail(Request $request,$uuid){
+        $program = ProgramModel::where('uuid',$uuid)->firstOrFail();
+        $request->validate(['file'=>'required|file|max:20480']);
+        //DELETE OLD FILE
+        if($program->img_thumbnail){
+            Storage::delete($program->getRawOriginal('img_thumbnail'));
+        }
+        $path = $request->file('file')->store("programs/$uuid");
+        return $program->update(['img_thumbnail' => $path]);
+    }
+    //
+
     public function index_categories(Request $request){
         $page = $request->input('page', 1);
         $page_size = 20;

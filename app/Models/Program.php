@@ -18,7 +18,11 @@ class Program extends Model
                            'price',
                            'price_sale',
                            'price_computed',
-                           'on_sale'];
+                           'on_sale',
+                           'img_thumbnail',
+                           'img_cover'
+
+    ];
 
     public function uniqueIds(){
         return ['uuid'];
