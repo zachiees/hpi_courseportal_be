@@ -19,7 +19,9 @@ class Course extends Model
                             'price_computed',
                             'on_sale',
                             'lms_course_id',
-                            'tags'];
+                            'tags',
+                            'img_cover',
+                            'img_thumbnail'];
 
     protected $casts = [
         'tags'=>'array',

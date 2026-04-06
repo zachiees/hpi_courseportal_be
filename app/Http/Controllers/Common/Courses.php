@@ -78,6 +78,12 @@ class Courses extends Controller
     public function destroy(Request $request,$uuid){
         return CourseModel::where('uuid',$uuid)->firstOrFail()->delete();
     }
+    public function upload_cover(Request $request,$uuid){
+        $course = CourseModel::where('uuid',$uuid)->firstOrFail();
+        $request->validate(['file'=>'required|file|max:20480']);
+        $path = $request->file('file')->store("courses/$uuid/");
+        return $course->update(['img_cover' => $path]);
+    }
     //
     private function updatePrice(CourseModel $course){
         $price = $course->on_sale ? $course->price_sale : $course->price ;

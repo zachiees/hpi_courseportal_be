@@ -12,6 +12,6 @@ Route::prefix('courses')
         Route::get("{uuid}", [Courses::class, 'find']);
         Route::patch("{uuid}", [Courses::class, 'update']);
         Route::delete("{uuid}", [Courses::class, 'destroy']);
-
-
+        Route::post("{uuid}/upload_cover", [Courses::class, 'upload_cover']);
+        Route::post("{uuid}/upload_thumbnail", [Courses::class, 'upload_thumbnail']);
     });
