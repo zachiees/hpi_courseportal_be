@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Course as CourseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class Courses extends Controller
 {
@@ -81,7 +82,11 @@ class Courses extends Controller
     public function upload_cover(Request $request,$uuid){
         $course = CourseModel::where('uuid',$uuid)->firstOrFail();
         $request->validate(['file'=>'required|file|max:20480']);
-        $path = $request->file('file')->store("courses/$uuid/");
+        //DELETE OLD FILE
+        if($course->img_cover){
+            Storage::delete($course->img_cover);
+        }
+        $path = $request->file('file')->store("courses/$uuid");
         return $course->update(['img_cover' => $path]);
     }
     //
