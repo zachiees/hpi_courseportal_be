@@ -22,8 +22,9 @@ class Program extends Model
                            'price_computed',
                            'on_sale',
                            'img_thumbnail',
-                           'img_cover'
-
+                           'img_cover',
+                            'level',
+                            'duration'
     ];
 
     public function uniqueIds(){
