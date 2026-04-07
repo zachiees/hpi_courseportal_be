@@ -14,9 +14,12 @@ class Programs extends Controller
         $request->validate(['query'=>'nullable|max:100',
                              'page'=> 'nullable|integer|min:1']);
 
+        //FILTERS
         $query = ProgramModel::withCount(['courses']);
         $search     = $request->input('query','');
         $categories = $request->input('categories',[]);
+        $level      = $request->input('level',[]);
+        //PAGINATION && SORT
         $sort = $request->input('sort',[]);
         $page  = $request->input('page',1);
         $page_size = 20;
@@ -25,10 +28,16 @@ class Programs extends Controller
             $query->where('name','LIKE',"%$search%");
         }
 
+        if(!empty($level)){
+            $query->whereIn('level',$level);
+        }
+
         if(!empty($categories)){
             $query->whereRelation('categories', function($q) use ($categories){
                                                 $q->whereIn('uuid', $categories); });
         }
+
+
 
         match ($sort){
             'name_asc'  => $query->orderBy('name','asc'),
