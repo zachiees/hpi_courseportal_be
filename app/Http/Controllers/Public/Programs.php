@@ -15,12 +15,15 @@ class Programs extends Controller
                              'page'=> 'nullable|integer|min:1']);
 
         $query = ProgramModel::query();
+        $search     = $request->input('query','');
         $categories = $request->input('categories',[]);
         $sort = $request->input('sort',[]);
         $page  = $request->input('page',1);
         $page_size = 20;
 
-
+        if($search){
+            $query->where('name','LIKE',"%$search%");
+        }
 
         if(!empty($categories)){
             $query->whereRelation('categories', function($q) use ($categories){
