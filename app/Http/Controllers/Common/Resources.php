@@ -10,6 +10,6 @@ class Resources extends Controller
 {
     //
     public function program_categories(Request $request){
-        return ProgramCategory::orderBy('name','asc')->get();
+        return ProgramCategory::withCcount(['programs'])->orderBy('name','asc')->get();
     }
 }
