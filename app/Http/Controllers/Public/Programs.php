@@ -14,7 +14,7 @@ class Programs extends Controller
         $request->validate(['query'=>'nullable|max:100',
                              'page'=> 'nullable|integer|min:1']);
 
-        $query = ProgramModel::query();
+        $query = ProgramModel::withCount(['courses']);
         $search     = $request->input('query','');
         $categories = $request->input('categories',[]);
         $sort = $request->input('sort',[]);
