@@ -23,6 +23,8 @@ return new class extends Migration
             $table->decimal('price_computed',12,2)->default(0);
             $table->text('img_cover')->nullable();
             $table->text('img_thumbnail')->nullable();
+            $table->string('level')->nullable();
+            $table->tinyInteger('duration')->default(0);
             $table->timestamps();
         });
     }
