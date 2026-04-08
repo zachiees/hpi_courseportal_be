@@ -19,6 +19,7 @@ class Programs extends Controller
         $search     = $request->input('query','');
         $categories = $request->input('categories',[]);
         $level      = $request->input('level',[]);
+        $duration   = $request->input('duration',0);
         //PAGINATION && SORT
         $sort = $request->input('sort',[]);
         $page  = $request->input('page',1);
@@ -30,6 +31,10 @@ class Programs extends Controller
 
         if(!empty($level)){
             $query->whereIn('level',$level);
+        }
+
+        if($duration){
+            $query->where('duration','<=',$duration);
         }
 
         if(!empty($categories)){
