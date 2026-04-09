@@ -14,6 +14,11 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->uuid();
+            $table->foreignId('principal_id')
+                  ->nullable()
+                  ->constrained('principals')
+                  ->nullOnDelete()
+                  ->cascadeOnUpdate();
             $table->string('name',100);
             $table->string('description',1024)->nullable();
             $table->boolean('on_sale')->default(false);
