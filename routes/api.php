@@ -13,5 +13,6 @@ require_once "api/common/users.php";
 require_once "api/common/programs.php";
 require_once "api/common/resources.php";
 require_once "api/common/courses.php";
+require_once "api/common/lms.php";
 //PUBLIC
 require_once "api/public/programs.php";
