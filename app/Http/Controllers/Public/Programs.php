@@ -57,4 +57,7 @@ class Programs extends Controller
         $items = $query->get();
         return ['items'=>$items,'count'=>$count];
     }
+    public function find(Request $request, $uuid){
+       return ProgramModel::with(['courses','categories'])->where('uuid',$uuid)->firstOrFail();
+    }
 }
