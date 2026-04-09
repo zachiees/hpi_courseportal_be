@@ -16,3 +16,4 @@ require_once "api/common/courses.php";
 require_once "api/common/lms.php";
 //PUBLIC
 require_once "api/public/programs.php";
+require_once "api/public/registration.php";
