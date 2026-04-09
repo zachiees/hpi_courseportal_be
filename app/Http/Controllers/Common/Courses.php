@@ -22,8 +22,10 @@ class Courses extends Controller
                             'description'=>'max:1024',
                             'price'      =>'required|numeric',
                             'price_sale' =>'required|numeric',
-                            'on_sale'    =>'required|boolean']);
+                            'on_sale'    =>'required|boolean',
+                            'lms_course_id' =>'nullable|numeric']);
         $price_computed = $request->input('on_sale') ? $request->input('price_sale') : $request->input('price');
+
         $res = CourseModel::create([...$request->all(),
                                     'computed_price' => $price_computed]);
         $this->updatePrice($res);
