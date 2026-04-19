@@ -55,4 +55,7 @@ class Course extends Model
     public function programs(){
         return $this->belongsToMany(Program::class,ProgramCourse::class,'course_id','program_id');
     }
+    public function principal(){
+        return $this->belongsTo(Principals::class,'principal_id');
+    }
 }
