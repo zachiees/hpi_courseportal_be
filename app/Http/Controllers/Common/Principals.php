@@ -22,6 +22,11 @@ class Principals extends Controller
 
         $query = PrincipalModel::query();
 
+        if($search){
+            $query->where('name','like',"%$search%");
+        }
+
+
         $count = $query->count();
         //PAGINATE
         $query->offset(($page-1)*$page_size)->take($page_size);
@@ -34,6 +39,9 @@ class Principals extends Controller
             'type' => 'required|in:local,international',
         ]);
         return PrincipalModel::create($request->all());
+    }
+    public function list(){
+        return PrincipalModel::orderBy('name','asc')->get();
     }
 
 }

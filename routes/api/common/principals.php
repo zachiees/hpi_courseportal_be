@@ -7,4 +7,5 @@ Route::prefix('principals')
         ->group(function () {
             Route::get('',[Principals::class,'index']);
             Route::post('',[Principals::class,'store']);
+            Route::get('list',[Principals::class,'list']);
         });
