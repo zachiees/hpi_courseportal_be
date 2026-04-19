@@ -24,6 +24,7 @@ class Course extends Model
                             'lms_course_id',
                             'tags',
                             'img_cover',
+                            'principal_id',
                             'img_thumbnail'];
 
     protected $casts = [
