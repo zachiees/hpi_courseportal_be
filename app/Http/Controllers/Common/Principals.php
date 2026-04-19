@@ -9,6 +9,11 @@ use App\Models\Principals as PrincipalModel;
 class Principals extends Controller
 {
     //
+    public function find(Request $request,$uuid){
+        return PrincipalModel::where('uuid',$uuid)
+                                ->with(['courses'])
+                                ->first();
+    }
     public function index(Request $request){
         $request->validate([
             'query' => 'nullable|max:50',
@@ -20,7 +25,7 @@ class Principals extends Controller
         $page_size = 20;
         $sort = $request->input('sort','name_asc');
 
-        $query = PrincipalModel::query();
+        $query = PrincipalModel::withCount(['courses']);
 
         if($search){
             $query->where('name','like',"%$search%");

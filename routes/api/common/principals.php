@@ -8,4 +8,5 @@ Route::prefix('principals')
             Route::get('',[Principals::class,'index']);
             Route::post('',[Principals::class,'store']);
             Route::get('list',[Principals::class,'list']);
+            Route::get('{uuid}',[Principals::class,'find']);
         });
