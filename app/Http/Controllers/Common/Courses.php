@@ -28,10 +28,10 @@ class Courses extends Controller
                             'principal_id' =>'nullable|exists:App\Models\Principals,uuid'
         ]);
         $price_computed = $request->input('on_sale') ? $request->input('price_sale') : $request->input('price');
-        $principal = Principals::where('uuid',$request->input('principal_id'))->firstOrFail();
+        $principal = Principals::where('uuid',$request->input('principal_id'))->first();
 
         $res = CourseModel::create([...$request->all(),
-                                    'principal_id' => $principal->id,
+                                    'principal_id' => $principal?->id,
                                     'computed_price' => $price_computed]);
         $this->updatePrice($res);
         return $res;
@@ -78,11 +78,11 @@ class Courses extends Controller
                             'principal_id' =>'nullable|exists:App\Models\Principals,uuid'
         ]);
         $record = CourseModel::where('uuid',$uuid)->firstOrFail();
-        $principal = Principals::where('uuid',$request->input('principal_id'))->firstOrFail();
+        $principal = Principals::where('uuid',$request->input('principal_id'))->first();
         $price_computed = $request->input('on_sale') ? $request->input('price_sale') : $request->input('price');
         DB::beginTransaction();
         $res = $record->update([...$request->all(),
-                                'principal_id'   => $principal->id,
+                                'principal_id'   => $principal?->id,
                                 'price_computed' => $price_computed]);
         CourseUpdated::dispatch($record);
         DB::commit();
