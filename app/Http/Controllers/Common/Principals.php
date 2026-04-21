@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Common;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Principals as PrincipalModel;
+use Illuminate\Support\Facades\Storage;
 
 class Principals extends Controller
 {
@@ -52,8 +53,13 @@ class Principals extends Controller
         $request->validate([
             'file'=>'required|file|image|mimes:jpeg,png,jpg|max:5120',
         ]);
-        $file = $request->file('file');
-
+        $principal = PrincipalModel::where('uuid',$uuid)->firstOrFail();
+        //DELETE iF HAS EXISTS
+        if($principal->img){
+            Storage::delete($principal->getRawOriginal('img'));
+        }
+        $path = $request->file('file')->store("principals/$uuid");
+        return $principal->update([ 'img'=> $path ]);
     }
 
 }
