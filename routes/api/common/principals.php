@@ -9,5 +9,5 @@ Route::prefix('principals')
             Route::post('',[Principals::class,'store']);
             Route::get('list',[Principals::class,'list']);
             Route::get('{uuid}',[Principals::class,'find']);
-            Route::get('{uuid}/upload_image',[Principals::class,'upload_image']);
+            Route::post('{uuid}/upload_image',[Principals::class,'upload_image']);
         });
