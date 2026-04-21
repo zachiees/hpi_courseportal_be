@@ -13,6 +13,7 @@ class Principals extends Model
     protected $hidden = ['id'];
 
     protected $fillable = ['name',
+                           'img',
                            'type'];
 
 
