@@ -48,5 +48,12 @@ class Principals extends Controller
     public function list(){
         return PrincipalModel::orderBy('name','asc')->get();
     }
+    public function upload_image(Request $request,$uuid){
+        $request->validate([
+            'file'=>'required|file|image|mimes:jpeg,png,jpg|max:5120',
+        ]);
+        $file = $request->file('file');
+
+    }
 
 }
