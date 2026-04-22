@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('particular',['program']);
             $table->bigInteger('particular_id');
             $table->enum('status',['pending','completed','failed','expired']);
-            $table->string('payment_intent_id');
+            $table->string('payment_intent_id')->unique();
             $table->timestamps();
         });
     }
