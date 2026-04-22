@@ -8,12 +8,12 @@ class PaymongoApi
 {
     private $api_url = "https://api.paymongo.com";
 
-    public function createPaymentIntent($amount){
+    public function createPaymentIntent($amount,$methods){
 
         $attributes = [
             'amount'    => $amount,
             'currency'  => 'PHP',
-            'payment_method_allowed'=> ["card"],
+            'payment_method_allowed'=> $methods,
             'capture_type'          => 'automatic',
         ];
 
