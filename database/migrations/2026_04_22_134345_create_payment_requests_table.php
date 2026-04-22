@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('payment_method_id')->nullable();
             $table->string('payment_client_key')->nullable();
             //
-            $table->json('payment_intent')->default([]);
-            $table->json('payment_method')->default([]);
+            $table->json('payment_intent')->default("[]");
+            $table->json('payment_method')->default("[]");
 
             $table->timestamps();
         });
