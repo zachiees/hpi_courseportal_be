@@ -15,13 +15,18 @@ class PaymentRequests extends Controller
 
     }
     //
+    public function find(Request $request,$uuid){
+        $current_user = $request->user();
+        return PaymentRequestModel::where('uuid',$uuid)
+                                    ->where('user_id',$current_user->id)
+                                    ->firstOrFail();
+    }
     public function store(Request $request){
         $request->validate([
             'particular'       =>'required|in:program',
             'particular_id'=>'required|string',
             'amount'           =>'required|numeric',
         ]);
-
         $user = $request->user();
         $type = $request->input('particular');
         $particular_id = $request->input('particular_id');

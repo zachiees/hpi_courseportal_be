@@ -10,7 +10,8 @@ class PaymentRequest extends Model
     //
     use HasUuids;
 
-    protected $hidden = ['id'];
+    protected $hidden = ['id','user_id'];
+
     protected $fillable = ['user_id',
                            'amount',
                            'particular',
@@ -22,5 +23,8 @@ class PaymentRequest extends Model
     public function uniqueIds(){
         return ['uuid'];
     }
-
+    //RELATIONS
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 }
