@@ -35,16 +35,12 @@ class PaymongoApi
     }
     public function attachIntentMethod($intent_id,$method_id,$client_key){
         $attributes = [
-            'type'=> 'qrph',
-            'billing'=>[
-                'name'=> 'John Doe',
-                'email'=> 'johndoe@email.com'
-            ]
+            'payment_method' => $method_id,
+            "client_key" => $client_key,
         ];
-
-
+        $payload = [ 'data'=> [ "attributes" => $attributes  ] ];
+        return $this->makeRequest()->post("$this->api_url/v1/payment_intents/$intent_id/attach", $payload)->json();
     }
-
 
     private function makeRequest(){
         return Http::withOptions(['verify' => false,
