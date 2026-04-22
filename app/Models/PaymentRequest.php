@@ -12,10 +12,11 @@ class PaymentRequest extends Model
 
     protected $hidden = ['id'];
     protected $fillable = ['user_id',
-                          'particular',
-                          'particular_id',
-                          'status',
-                          'payment_intent_id'];
+                           'amount',
+                           'particular',
+                           'particular_id',
+                           'status',
+                           'payment_intent_id'];
 
 
     public function uniqueIds(){

@@ -13,8 +13,9 @@ class PaymentRequests extends Controller
     //
     public function store(Request $request){
         $request->validate([
-            'particular'=>'required|in:program',
+            'particular'       =>'required|in:program',
             'payment_intent_id'=>'required|string',
+            'amount'           =>'required|numeric',
         ]);
 
         $user = $request->user();
@@ -28,7 +29,8 @@ class PaymentRequests extends Controller
             'particular' => $type,
             'particular_id' => $particular->id,
             'status'        => 'pending',
-            'payment_intent_id' => $request->get('payment_intent_id'),
+            'payment_intent_id' => $request->input('payment_intent_id'),
+            'amount'            => $request->input('amount'),
         ]);
     }
 

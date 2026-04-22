@@ -19,6 +19,7 @@ return new class extends Migration
                   ->constrained('users')
                   ->nullOnDelete()
                   ->cascadeOnUpdate();
+            $table->decimal('amount',12,2);
             $table->enum('particular',['program']);
             $table->bigInteger('particular_id');
             $table->enum('status',['pending','completed','failed','expired']);
