@@ -10,18 +10,28 @@ use Illuminate\Http\Request;
 use App\Models\PaymentRequest as PaymentRequestModel;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaymentRequests extends Controller
 {
+    private $pr_expiry_seconds = 600;
+
     public function __construct(private PayMongoApi $paymongo){
 
     }
     //
     public function find(Request $request,$uuid){
         $current_user = $request->user();
-        return PaymentRequestModel::where('uuid',$uuid)
+
+        $record = PaymentRequestModel::where('uuid',$uuid)
                                     ->where('user_id',$current_user->id)
                                     ->firstOrFail();
+
+        $elapsed_time = time() - Carbon::parse($record->created_at)->timestamp;
+        $expired = $elapsed_time >= $this->pr_expiry_seconds;
+        $expired &&  $record->update(['status'=>'expired']);
+        return $record;
     }
     public function store(Request $request){
         $request->validate([
