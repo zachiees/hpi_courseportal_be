@@ -21,6 +21,18 @@ class PaymongoApi
         return $this->makeRequest()->post("$this->api_url/v1/payment_intents", $payload)->json();
 
     }
+    public function createPaymentMethod(){
+        $attributes = [
+            'type'=> 'qrph',
+            'billing'=>[
+                'name'=> 'John Doe',
+                'email'=> 'johndoe@email.com'
+            ]
+        ];
+
+        $payload = [ 'data'=> [ "attributes" => $attributes  ] ];
+        return $this->makeRequest()->post("$this->api_url/v1/payment_methods", $payload)->json();
+    }
 
 
     private function makeRequest(){

@@ -7,6 +7,7 @@ Route::prefix('payment_requests')
     ->name('payment_requests.')
     ->middleware(['auth:sanctum'])
     ->group(function () {
-        Route::post('', [PaymentRequests::class, 'store']);
-        Route::get('{uuid}', [PaymentRequests::class, 'find']);
+        Route::post('',                  [PaymentRequests::class, 'store']);
+        Route::get('{uuid}',             [PaymentRequests::class, 'find']);
+        Route::get('{uuid}/generate_qr', [PaymentRequests::class, 'generate_qr']);
     });

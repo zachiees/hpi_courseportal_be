@@ -44,6 +44,13 @@ class PaymentRequests extends Controller
             'amount'            => $request->input('amount'),
         ]);
     }
+    public function generate_qr(Request $request,$uuid){
+        $current_user = $request->user();
+        $payment_request = PaymentRequestModel::where('uuid',$uuid)
+                                                ->where('user_id',$current_user->id)
+                                                ->firstOrFail();
+        return $this->paymongo->createPaymentMethod();
+    }
 
     //
     private function getParticular($type,$uuid){
