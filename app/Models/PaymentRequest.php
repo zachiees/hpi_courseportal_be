@@ -13,7 +13,7 @@ class PaymentRequest extends Model
     protected $hidden = ['id','user_id'];
 
     protected $fillable = [
-        'user_id',
+       'user_id',
        'amount',
        'particular',
        'particular_id',
