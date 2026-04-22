@@ -23,7 +23,14 @@ return new class extends Migration
             $table->enum('particular',['program']);
             $table->bigInteger('particular_id');
             $table->enum('status',['pending','completed','failed','expired']);
-            $table->string('payment_intent_id')->unique();
+            //IDS
+            $table->string('payment_intent_id')->nullable();
+            $table->string('payment_method_id')->nullable();
+            $table->string('payment_client_key')->nullable();
+            //
+            $table->json('payment_intent')->default([]);
+            $table->json('payment_method')->default([]);
+
             $table->timestamps();
         });
     }
