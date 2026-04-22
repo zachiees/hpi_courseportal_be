@@ -86,6 +86,16 @@ class PaymentRequests extends Controller
         return ['img'=>$qr_base64,'expiry'=>$expiry,'created_at'=>Carbon::now()];
 
     }
+    public function check_status(Request $request,$uuid){
+        $current_user = $request->user();
+
+        $record = PaymentRequestModel::where('uuid',$uuid)
+                                       ->where('user_id',$current_user->id)
+                                       ->firstOrFail();
+        $intent = $this->paymongo->fetchIntent($record->payment_intent_id);
+        $record->update(['payment_intent'=>$intent]);
+        return $intent;
+    }
 
     //
     private function getParticular($type,$uuid){

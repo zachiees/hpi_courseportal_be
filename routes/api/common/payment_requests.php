@@ -10,4 +10,5 @@ Route::prefix('payment_requests')
         Route::post('',                  [PaymentRequests::class, 'store']);
         Route::get('{uuid}',             [PaymentRequests::class, 'find']);
         Route::get('{uuid}/generate_qr', [PaymentRequests::class, 'generate_qr']);
+        Route::get('{uuid}/status',      [PaymentRequests::class, 'check_status']);
     });

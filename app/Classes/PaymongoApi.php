@@ -42,6 +42,9 @@ class PaymongoApi
         $payload = [ 'data'=> [ "attributes" => $attributes  ] ];
         return $this->makeRequest()->post("$this->api_url/v1/payment_intents/$intent_id/attach", $payload)->json();
     }
+    public function fetchIntent($intent_id){
+        return $this->makeRequest()->post("$this->api_url/v1/payment_intents/$intent_id")->json();
+    }
 
     private function makeRequest(){
         return Http::withOptions(['verify' => false,
