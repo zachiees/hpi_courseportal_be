@@ -65,7 +65,7 @@ class PaymentRequests extends Controller
                                                 ->firstOrFail();
         DB::beginTransaction();
         //CREATE PAYMENT METHOD
-        $expiry = 60; //11 MINUTES
+        $expiry = 600; //10 MINUTES
         $payment_method = $this->paymongo->createPaymentMethod($expiry);
 
         $payment_request->update([
