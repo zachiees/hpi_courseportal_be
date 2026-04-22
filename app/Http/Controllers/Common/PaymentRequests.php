@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Classes\PaymongoApi;
 use App\Http\Controllers\Controller;
 use App\Models\Program;
 use Illuminate\Http\Request;
@@ -10,26 +11,31 @@ use App\Models\User;
 
 class PaymentRequests extends Controller
 {
+    public function __construct(private PayMongoApi $paymongo){
+
+    }
     //
     public function store(Request $request){
         $request->validate([
             'particular'       =>'required|in:program',
-            'payment_intent_id'=>'required|string',
+            'particular_id'=>'required|string',
             'amount'           =>'required|numeric',
         ]);
 
         $user = $request->user();
-        $type = $request->request->get('particular');
-        $particular_id = $request->get('particular_id');
+        $type = $request->input('particular');
+        $particular_id = $request->input('particular_id');
 
         $particular = $this->getParticular($type, $particular_id);
+
+        $payment_intent = $this->paymongo->createPaymentIntent(1000);
 
         return PaymentRequestModel::create([
             'user_id'    => $user->id,
             'particular' => $type,
             'particular_id' => $particular->id,
             'status'        => 'pending',
-            'payment_intent_id' => $request->input('payment_intent_id'),
+            'payment_intent_id' => $payment_intent['data']['id'],
             'amount'            => $request->input('amount'),
         ]);
     }
