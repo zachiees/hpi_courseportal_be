@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Common;
 use App\Classes\PaymongoApi;
 use App\Http\Controllers\Controller;
 use App\Models\Program;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\PaymentRequest as PaymentRequestModel;
 use App\Models\User;
@@ -54,7 +55,8 @@ class PaymentRequests extends Controller
                                                 ->firstOrFail();
         DB::beginTransaction();
         //CREATE PAYMENT METHOD
-        $payment_method = $this->paymongo->createPaymentMethod();
+        $expiry = 600; //11 MINUTES
+        $payment_method = $this->paymongo->createPaymentMethod($expiry);
 
         $payment_request->update([
             'payment_method_id' => $payment_method['data']['id'],
@@ -69,9 +71,9 @@ class PaymentRequests extends Controller
         $new_intent = $this->paymongo->attachIntentMethod($intent_id, $method_id, $client_key);
 
         $payment_request->update(['payment_intent' => $new_intent]);
-        $qr = $new_intent['data']['attributes']['next_action']['code']['image_url'];
+        $qr_base64 = $new_intent['data']['attributes']['next_action']['code']['image_url'];
         DB::commit();
-        return $qr;
+        return ['img'=>$qr_base64,'expiry'=>$expiry,'created_at'=>Carbon::now()];
 
     }
 

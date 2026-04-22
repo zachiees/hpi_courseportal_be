@@ -21,9 +21,10 @@ class PaymongoApi
         return $this->makeRequest()->post("$this->api_url/v1/payment_intents", $payload)->json();
 
     }
-    public function createPaymentMethod(){
+    public function createPaymentMethod($expiry_seconds){
         $attributes = [
             'type'=> 'qrph',
+            "expiry_seconds"=> $expiry_seconds,
             'billing'=>[
                 'name'=> 'John Doe',
                 'email'=> 'johndoe@email.com'
