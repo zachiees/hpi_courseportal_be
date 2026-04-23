@@ -3,11 +3,25 @@
 namespace App\Classes;
 
 use Illuminate\Support\Facades\Http;
+use \Exception;
 
 class PaymongoApi
 {
     private $api_url = "https://api.paymongo.com";
+    private $public_key;
+    private $private_key;
+    private $merchant_id;
 
+
+    public function __construct(){
+        $this->initKeys();
+    }
+    private function initKeys(){
+        $this->private_key = env('PAYMENT_SECRET_KEY') ?? throw new Exception('PAYMENT SECRET KEY ERROR');
+        $this->public_key = env('PAYMENT_PUBLIC_KEY') ?? throw new Exception('PAYMENT PUBLIC KEY ERROR');
+        $this->merchant_id = env('PAYMENT_MERCHANT_ID') ?? throw new Exception('PAYMENT MERCHANT ID ERROR');
+
+    }
     public function createPaymentIntent($amount,$methods){
 
         $attributes = [
@@ -43,15 +57,16 @@ class PaymongoApi
         return $this->makeRequest()->post("$this->api_url/v1/payment_intents/$intent_id/attach", $payload)->json();
     }
     public function fetchIntent($intent_id){
-        return $this->makeRequest()->post("$this->api_url/v1/payment_intents/$intent_id")->json();
+        return $this->makeRequest(true)->get("$this->api_url/v1/payment_intents/$intent_id")->json();
     }
 
-    private function makeRequest(){
+    private function makeRequest($use_private_key = false){
+        $key = $use_private_key ? $this->private_key : $this->public_key;
         return Http::withOptions(['verify' => false,
                                   'allow_redirects' => false,
                                   'timeout' => 60,
                                   'connect_timeout' => 60])
-                    ->withBasicAuth('pk_test_hyuKoQdgopwWAGtdRM8NPste','');
+                    ->withBasicAuth($key,'');
     }
 
 
