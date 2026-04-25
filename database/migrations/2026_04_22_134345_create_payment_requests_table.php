@@ -30,7 +30,8 @@ return new class extends Migration
             //
             $table->json('payment_intent')->default("[]");
             $table->json('payment_method')->default("[]");
-
+            //
+            $table->integer('payment_timestamp')->nullable();
             $table->timestamps();
         });
     }
