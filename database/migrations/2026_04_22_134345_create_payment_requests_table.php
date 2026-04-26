@@ -30,8 +30,9 @@ return new class extends Migration
             //
             $table->json('payment_intent')->default("[]");
             $table->json('payment_method')->default("[]");
+            $table->json('webhook_response')->default("[]");
             //
-            $table->integer('payment_timestamp')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }

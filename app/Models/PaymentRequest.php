@@ -22,12 +22,15 @@ class PaymentRequest extends Model
        'payment_method_id',
        'payment_client_key',
        'payment_intent',
-       'payment_method'
+       'payment_method',
+       'paid_at',
+        'webhook_response',
     ];
 
     protected $casts = [
         'payment_intent' => 'array',
         'payment_method' => 'array',
+        'webhook_response' => 'array',
     ];
 
 
