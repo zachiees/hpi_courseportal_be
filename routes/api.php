@@ -19,3 +19,5 @@ require_once "api/common/payment_requests.php";
 //PUBLIC
 require_once "api/public/programs.php";
 require_once "api/public/registration.php";
+//WEBHOOKS
+require_once "api/webhooks/payments.php";
