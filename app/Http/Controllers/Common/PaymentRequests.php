@@ -16,9 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 class PaymentRequests extends Controller
 {
     private $pr_expiry_seconds = 600;
+    private $app_debug = false;
 
     public function __construct(private PayMongoApi $paymongo){
-
+        $this->app_debug = env('APP_DEBUG', false);
     }
     //
     public function find(Request $request,$uuid){
@@ -80,12 +81,18 @@ class PaymentRequests extends Controller
         $client_key = $payment_request->payment_client_key;
 
         $new_intent = $this->paymongo->attachIntentMethod($intent_id, $method_id, $client_key);
-
+        Log::info($new_intent);
         $payment_request->update(['payment_intent' => $new_intent]);
         $qr_base64 = $new_intent['data']['attributes']['next_action']['code']['image_url'];
         DB::commit();
-        return ['img'=>$qr_base64,'expiry'=>$expiry,'created_at'=>Carbon::now()];
+        $res  = ['img'=>$qr_base64,
+                 'expiry'=>$expiry,
+                 'created_at'=>Carbon::now()];
 
+        if($this->app_debug){
+            $res['test_url'] = $new_intent['data']['attributes']['next_action']['code']['test_url'];
+        }
+        return $res;
     }
     public function check_status(Request $request,$uuid){
         $current_user = $request->user();
