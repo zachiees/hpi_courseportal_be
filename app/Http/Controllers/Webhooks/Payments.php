@@ -28,7 +28,7 @@ class Payments extends Controller
     }
     //
     private function handlePaid($data){
-        $payment_intent_id = $data['attributes']['payment_intent_id'];
+        $payment_intent_id = $data['attributes']['data']['attributes']['payment_intent_id'];
         $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->first();
 
         return $record?->update([ 'status'=>'completed',
@@ -37,7 +37,7 @@ class Payments extends Controller
 
     }
     private function handleFailed($data){
-        $payment_intent_id = $data['attributes']['payment_intent_id'];
+        $payment_intent_id = $data['attributes']['data']['attributes']['payment_intent_id'];
         $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->first();
         return $record?->update([ 'status'=>'failed',
                                  'webhook_response'=>$data ]);
