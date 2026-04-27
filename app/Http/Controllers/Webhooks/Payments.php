@@ -12,8 +12,8 @@ class Payments extends Controller
 {
     //
     public function handle(Request $request){
-        Log::info($request->all());
         $response = $request->input('data',[]);
+        Log::info($response);
         $event_type = $response['attributes']['type'];
 
         switch ($event_type) {
