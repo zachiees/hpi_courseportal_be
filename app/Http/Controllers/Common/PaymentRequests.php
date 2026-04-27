@@ -100,7 +100,7 @@ class PaymentRequests extends Controller
         $record = PaymentRequestModel::where('uuid',$uuid)
                                         ->where('user_id',$current_user->id)
                                         ->firstOrFail();
-        return $record->status;
+        return ['status'=>$record->status];
     }
     public function check_intent(Request $request,$uuid){
         $current_user = $request->user();
