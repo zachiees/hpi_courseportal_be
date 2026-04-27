@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Webhooks;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Payments extends Controller
 {
@@ -25,7 +26,7 @@ class Payments extends Controller
                 $this->handleFailed($response);
                 break;
         }
-
+        return $response([],Response::HTTP_OK);
     }
     //
     private function handlePaid($data){
