@@ -13,10 +13,6 @@ class Payments extends Controller
     public function handle(Request $request){
         $response = $request->input('data',[]);
         $event_type        = $response['attributes']['type'];
-        $payment_intent_id = $response['attributes']['payment_intent_id'];
-
-        //CHECK IF INTENT EXISTS
-        $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->firstOrFail();
 
         switch ($event_type) {
             case 'payment.paid':
@@ -31,18 +27,17 @@ class Payments extends Controller
     //
     private function handlePaid($data){
         $payment_intent_id = $data['attributes']['payment_intent_id'];
-        $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->firstOrFail();
+        $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->first();
 
-        return $record->update([ 'status'=>'completed',
-                          'paid_at'=> now(),
-                          'webhook_response'=>$data
-        ]);
+        return $record?->update([ 'status'=>'completed',
+                                  'paid_at'=> now(),
+                                  'webhook_response'=>$data ]);
 
     }
     private function handleFailed($data){
         $payment_intent_id = $data['attributes']['payment_intent_id'];
-        $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->firstOrFail();
-        return $record->update([ 'status'=>'failed',
+        $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->first();
+        return $record?->update([ 'status'=>'failed',
                                  'webhook_response'=>$data ]);
     }
 }
