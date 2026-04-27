@@ -47,8 +47,6 @@ class PaymentRequests extends Controller
         $particular = $this->getParticular($type, $particular_id);
 
         $payment_intent = $this->paymongo->createPaymentIntent($amount,['qrph']);
-        Log::info($payment_intent);
-        Log::info($amount);
 //        return $payment_intent;
         return PaymentRequestModel::create([
             'user_id'    => $user->id,
