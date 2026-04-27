@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Webhooks;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class Payments extends Controller
 {
     //
     public function handle(Request $request){
+        Log::info($request->all());
         $response = $request->input('data',[]);
-        $event_type        = $response['attributes']['type'];
+        $event_type = $response['attributes']['type'];
 
         switch ($event_type) {
             case 'payment.paid':
