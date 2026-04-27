@@ -13,6 +13,10 @@ class Payments extends Controller
         $response = $request->input('data',[]);
         $event_type        = $response['attributes']['type'];
         $payment_intent_id = $response['attributes']['payment_intent_id'];
+
+        //CHECK IF INTENT EXISTS
+        $record = PaymentRequest::where('payment_intent_id',$payment_intent_id)->firstOrFail();
+
         switch ($event_type) {
             case 'payment.paid':
                 $this->handlePaid($response);

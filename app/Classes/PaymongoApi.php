@@ -23,9 +23,10 @@ class PaymongoApi
 
     }
     public function createPaymentIntent($amount,$methods){
+        // AMOUNT IS EXPRESSED IN CENTAVOS
 
         $attributes = [
-            'amount'    => $amount,
+            'amount'    => $amount * 100 ,
             'currency'  => 'PHP',
             'payment_method_allowed'=> $methods,
             'capture_type'          => 'automatic',

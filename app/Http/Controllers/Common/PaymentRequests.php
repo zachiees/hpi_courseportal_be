@@ -41,11 +41,14 @@ class PaymentRequests extends Controller
         ]);
         $user = $request->user();
         $type = $request->input('particular');
+        $amount = (int) $request->input('amount',0);
         $particular_id = $request->input('particular_id');
 
         $particular = $this->getParticular($type, $particular_id);
 
-        $payment_intent = $this->paymongo->createPaymentIntent(1000,['qrph']);
+        $payment_intent = $this->paymongo->createPaymentIntent($amount,['qrph']);
+        Log::info($payment_intent);
+        Log::info($amount);
 //        return $payment_intent;
         return PaymentRequestModel::create([
             'user_id'    => $user->id,
@@ -55,7 +58,7 @@ class PaymentRequests extends Controller
             'payment_intent_id' => $payment_intent['data']['id'],
             'payment_intent'    => $payment_intent,
             'payment_client_key'=> $payment_intent['data']['attributes']['client_key'],
-            'amount'            => $request->input('amount'),
+            'amount'            => $amount,
         ]);
     }
     public function generate_qr(Request $request,$uuid){
