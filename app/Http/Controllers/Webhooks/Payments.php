@@ -24,7 +24,7 @@ class Payments extends Controller
                 $this->handleFailed($response);
                 break;
         }
-        return $response([],Response::HTTP_OK);
+        return response([],Response::HTTP_OK);
     }
     //
     private function handlePaid($data){
