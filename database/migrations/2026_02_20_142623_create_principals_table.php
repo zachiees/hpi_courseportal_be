@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid();
             $table->string('name',100);
             $table->enum('type',['local','international'])->default('local');
+            $table->string('img')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
