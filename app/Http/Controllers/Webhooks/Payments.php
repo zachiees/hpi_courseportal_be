@@ -61,7 +61,8 @@ class Payments extends Controller
         $user = $pr->user;
         $program = Program::where('user_id',$pr->particular_id)->first();
 
-        if(!$user|| !$program){
+        if(!$user || !$program){
+            Log::info('Invalid user or Program');
             return;
         }
 
