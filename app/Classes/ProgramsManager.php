@@ -20,7 +20,6 @@ class ProgramsManager
         ProgramEnrollment::create(['user_id'=>$user->id,
                                    'program_id'=>$program->id]);
 
-
     }
 
 

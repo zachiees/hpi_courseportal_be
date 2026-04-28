@@ -8,10 +8,7 @@ use App\Models\Program;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\PaymentRequest as PaymentRequestModel;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
 
 class PaymentRequests extends Controller
 {
@@ -81,7 +78,6 @@ class PaymentRequests extends Controller
         $client_key = $payment_request->payment_client_key;
 
         $new_intent = $this->paymongo->attachIntentMethod($intent_id, $method_id, $client_key);
-        Log::info($new_intent);
         $payment_request->update(['payment_intent' => $new_intent]);
         $qr_base64 = $new_intent['data']['attributes']['next_action']['code']['image_url'];
         DB::commit();
