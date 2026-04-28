@@ -11,7 +11,9 @@ class ProgramsManager
 {
     public static function enroll(User $user,Program $program){
 
-        if(ProgramEnrollment::where('user_id',$user->id,'program_id',$program->id)->exists()){
+        if(ProgramEnrollment::where('user_id',$user->id)
+                            ->where('program_id',$program->id)
+                            ->exists()){
             Log::info('User already enrolled in program');
             return;
         }
