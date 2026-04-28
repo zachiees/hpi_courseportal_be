@@ -21,3 +21,5 @@ require_once "api/public/programs.php";
 require_once "api/public/registration.php";
 //WEBHOOKS
 require_once "api/webhooks/payments.php";
+//CLIENT
+require_once "api/client/programs.php";

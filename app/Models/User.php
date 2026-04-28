@@ -57,4 +57,9 @@ class User extends Authenticatable
         return ['uuid'];
     }
 
+    //RELATIONS
+    public function programs(){
+        return $this->belongsToMany(Program::class, ProgramEnrollment::class, 'user_id', 'program_id');
+    }
+
 }
