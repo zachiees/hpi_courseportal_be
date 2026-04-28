@@ -60,12 +60,12 @@ class Payments extends Controller
     private function programEnrollment(PaymentRequest $pr){
         $user = $pr->user;
         $program = Program::where('program_id',$pr->particular_id)->first();
-
+        Log::info('a');
         if(!$user || !$program){
             Log::info('Invalid user or Program');
             return;
         }
-
+        Log::info('b');
         ProgramsManager::enroll($user,$program);
 
 
