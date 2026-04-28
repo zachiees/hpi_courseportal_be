@@ -17,7 +17,6 @@ class Payments extends Controller
     public function handle(Request $request){
         $response = $request->input('data',[]);
         $event_type = $response['attributes']['type'];
-        DB::beginTransaction();
         switch ($event_type) {
             case 'payment.paid':
                 $this->handlePaid($response);
@@ -26,7 +25,6 @@ class Payments extends Controller
                 $this->handleFailed($response);
                 break;
         }
-        DB::commit();
         return response([],Response::HTTP_OK);
     }
     //
@@ -55,8 +53,6 @@ class Payments extends Controller
             case 'subscription':
                 break;
         }
-
-
     }
 
     //
