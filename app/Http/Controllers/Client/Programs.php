@@ -32,4 +32,11 @@ class Programs extends Controller
         $items = $query->get();
         return ['count'=>$count,'items'=>$items];
     }
+    public function find(Request $request,$uuid){
+        return $request->user()
+                      ->programs()
+                      ->where('uuid',$uuid)
+                      ->firstOrFail();
+
+    }
 }

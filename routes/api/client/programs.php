@@ -7,4 +7,5 @@ Route::prefix('client/programs')
     ->middleware(['auth:sanctum'])
     ->group(function(){
     Route::get('',[Programs::class,'index']);
+    Route::get('{uuid}',[Programs::class,'find']);
 });
